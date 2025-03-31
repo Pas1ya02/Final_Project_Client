@@ -21,7 +21,7 @@ const AddPaymentMethod = ({ navigation }) => {
             {/* Header */}
             <View className="flex-row items-center mt-6 mb-4">
                 <TouchableOpacity className="rounded-full p-2 border-2 border-gray-200">
-                    <Ionicons name="arrow-back" size={20} color="black" />
+                    <Ionicons name="arrow-back" size={22} color="black" />
                 </TouchableOpacity>
                 <Text className="flex-1 text-lg font-bold ml-2 text-center">Add payment method</Text>
             </View>
