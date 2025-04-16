@@ -18,7 +18,8 @@ const suggestions = [
     "Assistance for your delivery needs!",
 ];
 
-const ChatScreen = ({ navigation }) => {
+const ChatScreen = ({ navigation, route }) => {
+    const { user } = route.params || {};
     const [message, setMessage] = useState("");
     const [messages, setMessages] = useState([]);
 
@@ -35,11 +36,16 @@ const ChatScreen = ({ navigation }) => {
             className="flex-1 bg-white p-4"
         >
             {/* Header */}
-            <View className="flex-row w-full items-center  mb-4">
-                <TouchableOpacity className="rounded-full p-2 border-2 border-gray-200">
+            <View className="flex-row w-full items-center mb-4">
+                <TouchableOpacity
+                    className="rounded-full p-2 border-2 border-gray-200"
+                    onPress={() => navigation.goBack()}
+                >
                     <Ionicons name="arrow-back" size={20} color="black" />
                 </TouchableOpacity>
-                <Text className="flex-1 text-center text-lg font-extrabold">Chat</Text>
+                <Text className="flex-1 text-center text-lg font-extrabold">
+                    {user?.name || "Chat"}
+                </Text>
                 <TouchableOpacity className="ml-auto">
                     <Ionicons name="call" size={24} color="blue" />
                 </TouchableOpacity>

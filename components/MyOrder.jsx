@@ -9,7 +9,8 @@ import {
 } from "react-native";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 
-const MyOrder = () => {
+
+const MyOrder = ({ navigation }) => {
   const [selectedTab, setSelectedTab] = useState("All");
   const [searchText, setSearchText] = useState("");
   const [activeTab, setActiveTab] = useState("Delivery"); // Default selected tab
@@ -64,6 +65,11 @@ const MyOrder = () => {
 
   const filteredOrders = selectedTab === "All" ? orders : orders.filter((order) => order.status === selectedTab);
 
+  const handleOrderPress = (order) => {
+    // Navigate to OrderPreview and pass order data as params
+    navigation.navigate('OrderPreview', { order });
+  };
+
   return (
     <View className="flex-1 bg-white w-full">
       {/* Header */}
@@ -103,23 +109,28 @@ const MyOrder = () => {
         data={filteredOrders}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <View className="flex-row items-center bg-white mx-4 mt-4 rounded-lg shadow-sm p-4 border border-gray-100">
-            {/* Icon */}
-            <View className="bg-gray-100 rounded-full p-4">
-              <Text>📦</Text>
-            </View>
+          <TouchableOpacity
+            onPress={() => handleOrderPress(item)}
+            activeOpacity={0.7}
+          >
+            <View className="flex-row items-center bg-white mx-4 mt-4 rounded-lg shadow-sm p-4 border border-gray-100">
+              {/* Icon */}
+              <View className="bg-gray-100 rounded-full p-4">
+                <Text>📦</Text>
+              </View>
 
-            {/* Details */}
-            <View className="ml-4 flex-1">
-              <Text className="font-semibold text-gray-800">
-                #{item.trackingNumber}
-              </Text>
-              <Text className="text-gray-500">{item.description}</Text>
-            </View>
+              {/* Details */}
+              <View className="ml-4 flex-1">
+                <Text className="font-semibold text-gray-800">
+                  #{item.trackingNumber}
+                </Text>
+                <Text className="text-gray-500">{item.description}</Text>
+              </View>
 
-            {/* Status */}
-            <Text className={`font-bold ${item.color}`}>{item.status}</Text>
-          </View>
+              {/* Status */}
+              <Text className={`font-bold ${item.color}`}>{item.status}</Text>
+            </View>
+          </TouchableOpacity>
         )}
       />
 
@@ -137,7 +148,10 @@ const MyOrder = () => {
                 <TouchableOpacity
                     key={index}
                     className="items-center"
-                    onPress={() => setActiveTab(item.screen)}
+                    onPress={() => {
+                      setActiveTab(item.screen);
+                      navigation.navigate(item.screen);
+                    }}
                 >
                     <Image
                         source={item.icon}

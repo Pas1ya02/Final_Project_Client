@@ -1,69 +1,58 @@
 import { StatusBar } from 'expo-status-bar';
 import "./global.css";
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import { StyleSheet, View, SafeAreaView } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+
 import LoginForm from './components/LoginForm';
 import RegistrationForm from './components/RegistrationForm';
 import HomePage from './components/HomePage';
-import CreateDelivery from './components/CreateDelivery';
-import SenderDetails from './components/SenderDetails';
-
-import MyOrder from './components/MyOrder';
-import ResetPassword from './components/ResetPassword';
-import OTPVerification from './components/OTPVerification';
-import NewPassword from './components/NewPassword';
-import TimePicker from './components/TimePicker';
-import CourierSelection from './components/CourierSelection';
-import OrderPreview from './components/OrderPreview';
-import FindRide from './components/FindRide';
-import PaymentUpdates from './components/PaymentUpdates';
-import AddPaymentMethod from './components/AddPaymentMethod';
-import RiderConfirmed from './components/RiderConfirmed';
-import DeliveryComplete from './components/DeliveryComplete';
-import ProofOfDelevery from './components/ProofOfDelevery';
-import LiveTrack from './components/LiveTrack';
-import ChatList from './components/ChatList';
-import ChatOp from './components/chatOp';
-import Profile from './components/Profile';
 import Register from './components/Register';
+import CreateDelivery from './components/CreateDelivery';
+import CourierSelection from './components/CourierSelection';
+import TimePicker from './components/TimePicker';
+import FindRide from './components/FindRide';
+import MyOrder from './components/MyOrder';
+import ChatList from './components/ChatList';
+import ChatScreen from './components/chatOp';
+import Profile from './components/Profile';
+import TrackingDetails from './components/OrderPreview';
+import LiveTrack from './components/LiveTrack';
+import RescheduleDelivery from './components/RescheduleDelivery';
+import PaymentUpdates from './components/PaymentUpdates'; 
+
+// Import other components as needed
+
+const Stack = createStackNavigator();
 
 export default function App() {
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <View style={styles.container}>
-        {/* <LoginForm/> */}
-        {/* <RegistrationForm/> */}
-        {/* <ResetPassword/> */}
-        {/* <OTPVerification/> */}
-        {/* <NewPassword/> */}
-        {/* <HomePage/> */}
-        {/* <CreateDelivery /> */}
-        {/* <TimePicker/> */}
-        {/* <SenderDetails/> */}
-        {/* <CourierSelection/> */}
-
-        {/* <FindRide /> */}
-
-        {/* <PaymentUpdates/> */}
-        {/* <AddPaymentMethod/> */}
-        {/* <RiderConfirmed/> */}
-        {/* <DeliveryComplete/> */}
-
-        {/* <MyOrder/> */}
-        {/* <OrderPreview/> */}
-
-        {/* <ProofOfDelevery/> */}
-        {/* <LiveTrack/> */}
-        {/* <ChatList/> */}
-        {/* <ChatOp/> */}
-        {/* <Profile /> */}
-
-        {/* DRIVER_APP */}
-        {/* <Register/> */}
-
-
-        <StatusBar style="auto" />
-      </View>
-    </SafeAreaView>
+    <NavigationContainer>
+      <SafeAreaView style={styles.safeArea}>
+        <View style={styles.container}>
+          <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="Login" component={LoginForm} />
+            <Stack.Screen name="Registration" component={RegistrationForm} />
+            <Stack.Screen name="Register" component={Register} />
+            <Stack.Screen name="Home" component={HomePage} />
+            <Stack.Screen name="CreateDelivery" component={CreateDelivery} />
+            <Stack.Screen name="CourierSelection" component={CourierSelection} />
+            <Stack.Screen name="TimePicker" component={TimePicker} />
+            <Stack.Screen name="FindRide" component={FindRide} />
+            <Stack.Screen name="MyOrder" component={MyOrder} />
+            <Stack.Screen name="ChatList" component={ChatList} />
+            <Stack.Screen name="ChatScreen" component={ChatScreen} />
+            <Stack.Screen name="Profile" component={Profile} />
+            <Stack.Screen name="OrderPreview" component={TrackingDetails} />
+            <Stack.Screen name="LiveTrack" component={LiveTrack} />
+            <Stack.Screen name="RescheduleDelivery" component={RescheduleDelivery} />
+            <Stack.Screen name="PaymentUpdates" component={PaymentUpdates} />
+            {/* Add other screens as needed */}
+          </Stack.Navigator>
+          <StatusBar style="auto" />
+        </View>
+      </SafeAreaView>
+    </NavigationContainer>
   );
 }
 
@@ -74,7 +63,5 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 });

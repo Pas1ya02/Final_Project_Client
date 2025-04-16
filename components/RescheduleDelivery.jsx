@@ -2,17 +2,17 @@ import React, { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, Switch } from "react-native";
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
 
-export default function ProofOfDelevery() {
+export default function RescheduleDelivery() {
   const [notifyCustomer, setNotifyCustomer] = useState(true);
 
   return (
-    <View className="flex-1  w-full bg-gray-100 p-4">
+    <View className="flex-1 w-full bg-gray-100 p-4">
       {/* Header */}
       <View className="flex-row items-center mb-4">
         <TouchableOpacity className="rounded-full p-2 border-2 border-gray-200">
           <Ionicons name="arrow-back" size={20} color="black" />
         </TouchableOpacity>
-        <Text className="flex-1 text-center  text-lg font-extrabold">Reschedule Delivery</Text>
+        <Text className="flex-1 text-center text-lg font-extrabold">Reschedule Delivery</Text>
       </View>
 
       {/* Order Info */}
@@ -68,7 +68,6 @@ export default function ProofOfDelevery() {
           placeholder="Time approx"
         />
       </View>
-
 
       {/* Notify Customer Toggle */}
       <View className="flex-row items-center justify-between mt-4 p-3 rounded-lg ">

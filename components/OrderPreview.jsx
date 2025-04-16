@@ -3,12 +3,21 @@ import { View, Text, TouchableOpacity, Image } from "react-native";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import MapView, { Marker } from "react-native-maps";
 
-const TrackingDetails = () => {
+const TrackingDetails = ({ route, navigation }) => {
+  const { order } = route.params || {};
+
+  const handleReschedule = () => {
+    navigation.navigate('RescheduleDelivery', { order });
+  };
+
   return (
     <View className="flex-1 w-full bg-white p-4">
       {/* Header */}
       <View className="flex-row items-center mb-6">
-        <TouchableOpacity className="rounded-full p-2 border-2 border-gray-200">
+        <TouchableOpacity 
+          className="rounded-full p-2 border-2 border-gray-200"
+          onPress={() => navigation.goBack()}
+        >
           <Ionicons name="arrow-back" size={20} color="black" />
         </TouchableOpacity>
         <Text className="flex-1 text-lg font-bold ml-2 text-center">Tracking Details</Text>
@@ -41,15 +50,16 @@ const TrackingDetails = () => {
 
       {/* Order Details */}
       <View className="mt-4 p-4 bg-white shadow-lg rounded-lg">
-
         <View className="flex-row items-center">
           <Image
             source={require("../assets/icon/package.png")}
             className="w-10 h-10 mr-2"
           />
           <View>
-            <Text className="text-lg font-bold">#1234567890</Text>
-            <Text className="text-gray-500 text-sm">On Going | 1 Oct 2024</Text>
+            <Text className="text-lg font-bold">#{order?.trackingNumber || "1234567890"}</Text>
+            <Text className="text-gray-500 text-sm">
+              {order?.status || "On Going"} | 1 Oct 2024
+            </Text>
           </View>
         </View>
 
@@ -94,14 +104,20 @@ const TrackingDetails = () => {
         >
           <Marker coordinate={{ latitude: 6.9271, longitude: 79.8612 }} title="Current Location" />
         </MapView>
-        <TouchableOpacity className="absolute bottom-4 left-4 bg-blue-800 px-4 py-2 rounded-[20px] flex-row items-center">
+        <TouchableOpacity 
+          className="absolute bottom-4 left-4 bg-blue-800 px-4 py-2 rounded-[20px] flex-row items-center"
+          onPress={() => navigation.navigate('LiveTrack', { order })}
+        >
           <Ionicons name="radio-outline" size={18} color="white" />
           <Text className="text-white font-bold ml-2">Live Tracking</Text>
         </TouchableOpacity>
       </View>
 
       {/* Reschedule Button */}
-      <TouchableOpacity className="bg-blue-800 p-3 mt-8 rounded-[20px]">
+      <TouchableOpacity 
+        className="bg-blue-800 p-3 mt-8 rounded-[20px]"
+        onPress={handleReschedule}
+      >
         <Text className="text-white text-center font-bold">Reschedule</Text>
       </TouchableOpacity>
     </View>

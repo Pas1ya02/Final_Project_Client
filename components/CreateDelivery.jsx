@@ -8,20 +8,37 @@ import {
   ScrollView,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 const CreateDelivery = () => {
   const [shipmentType, setShipmentType] = useState("Parcel");
   const [packageQuantity, setPackageQuantity] = useState(1);
   const [modalVisible, setModalVisible] = useState(false);
   const [deliveryOption, setDeliveryOption] = useState("Now");
+  const navigation = useNavigation();
+
+  // Function to handle navigation based on delivery option
+  const handleConfirm = () => {
+    setModalVisible(false);
+    
+    // Navigate to the appropriate screen based on selection
+    if (deliveryOption === "Now") {
+      navigation.navigate("CourierSelection");
+    } else {
+      navigation.navigate("TimePicker");
+    }
+  };
 
   return (
     <ScrollView className="flex-1 w-full bg-white px-6 py-6">
       {/* Header */}
       <View className="flex-row items-center mb-6">
-         <TouchableOpacity className="rounded-full p-2 border-2 border-gray-200">
-                                  <Ionicons name="arrow-back" size={20} color="black" />
-                                </TouchableOpacity>
+        <TouchableOpacity 
+          className="rounded-full p-2 border-2 border-gray-200"
+          onPress={() => navigation.goBack()}
+        >
+          <Ionicons name="arrow-back" size={20} color="black" />
+        </TouchableOpacity>
         <Text className="text-lg font-semibold flex-1 text-center">
           Create Delivery
         </Text>
@@ -45,7 +62,7 @@ const CreateDelivery = () => {
       <Text className="text-sm font-semibold mb-3">Shipment Type</Text>
       <View className="flex-row space-x-4 w-full gap-4 mb-4">
         <TouchableOpacity
-          className={`flex-1 flex-row items-center  justify-center py-3 rounded-[20px] ${
+          className={`flex-1 flex-row items-center justify-center py-3 rounded-[20px] ${
             shipmentType === "Envelope"
               ? "bg-[#133BB7]"
               : "bg-gray-100 border border-gray-300"
@@ -58,7 +75,7 @@ const CreateDelivery = () => {
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          className={`flex-1 flex-row items-center  justify-center py-3 rounded-[20px] ${
+          className={`flex-1 flex-row items-center justify-center py-3 rounded-[20px] ${
             shipmentType === "Parcel"
               ? "bg-[#133BB7]"
               : "bg-gray-100 border border-gray-300"
@@ -100,14 +117,12 @@ const CreateDelivery = () => {
       />
 
       {/* Next Button */}
-     
       <TouchableOpacity
         className="bg-[#133BB7] rounded-[20px] py-3 shadow-md"
         onPress={() => setModalVisible(true)}
       >
         <Text className="text-center text-white font-bold text-lg">Next</Text>
       </TouchableOpacity>
- 
 
       {/* Modal for Delivery Scheduling */}
       <Modal
@@ -116,7 +131,7 @@ const CreateDelivery = () => {
         visible={modalVisible}
         onRequestClose={() => setModalVisible(false)}
       >
-        <View className="flex-1 justify-end   bg-opacity-50">
+        <View className="flex-1 justify-end bg-black bg-opacity-50">
           <View className="bg-white p-6 rounded-t-2xl">
             <Text className="text-lg font-bold mb-4">When do you need a delivery?</Text>
             
@@ -138,8 +153,8 @@ const CreateDelivery = () => {
 
             {/* Confirm Button */}
             <TouchableOpacity
-              className="mt-6 bg-[#133BB7] py-3  rounded-2xl"
-              onPress={() => setModalVisible(false)}
+              className="mt-6 bg-[#133BB7] py-3 rounded-2xl"
+              onPress={handleConfirm}
             >
               <Text className="text-center text-white font-bold text-lg">Confirm</Text>
             </TouchableOpacity>

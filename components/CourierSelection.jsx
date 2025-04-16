@@ -10,10 +10,12 @@ import {
 import { RadioButton } from "react-native-paper"; // Install react-native-paper
 import tw from "twrnc"; // Install twrnc
 import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 const CourierSelection = () => {
     const [selectedOption, setSelectedOption] = useState("from");
     const [selectedCourier, setSelectedCourier] = useState(null);
+    const navigation = useNavigation();
 
     const couriers = [
         { id: 1, name: "Pronto Lanka", image: require("../assets/icon/pronto.png") },
@@ -22,12 +24,23 @@ const CourierSelection = () => {
         { id: 4, name: "Pronto Lanka", image: require("../assets/icon/pronto.png") },
     ];
 
-    return (
+    // Function to handle navigation to FindRide page
+    const handleNextPress = () => {
+        if (selectedCourier) {
+            navigation.navigate("FindRide");
+        }
+    };
+    
+    // Function to handle back button press
+    const handleBackPress = () => {
+        navigation.goBack();
+    };
 
+    return (
         <View className="flex-1 w-full p-4 text-center bg-gray-100">
             {/* Header */}
             <View className="flex-row items-center mt-4">
-                <TouchableOpacity onPress={() => navigation.goBack()} className="rounded-full p-2 border-2 border-gray-200">
+                <TouchableOpacity onPress={handleBackPress} className="rounded-full p-2 border-2 border-gray-200">
                     <Ionicons name="arrow-back" size={20} color="black" />
                 </TouchableOpacity>
                 <Text className="text-lg font-extrabold text-center flex-1 ">
@@ -107,11 +120,11 @@ const CourierSelection = () => {
                 className={`w-full py-4 mt-2 rounded-[40px] ${selectedCourier ? "bg-blue-800" : "bg-gray-400"
                     }`}
                 disabled={!selectedCourier}
+                onPress={handleNextPress}
             >
                 <Text className="text-center text-white font-bold text-lg">Next</Text>
             </TouchableOpacity>
         </View>
-
     );
 };
 

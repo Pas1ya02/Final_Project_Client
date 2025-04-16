@@ -14,7 +14,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-nat
 const HomePage = () => {
   const { width } = useWindowDimensions();
   const [trackingID, setTrackingID] = useState("");
-  // const navigation = useNavigation();
+  const navigation = useNavigation();
 
   const clearSearch = () => {
     setTrackingID("");
@@ -25,14 +25,22 @@ const HomePage = () => {
     { id: "EX789012", item: "Laptop", from: "Galle", to: "Kandy", status: "Delivered", image: require("../assets/icon/package.png") },
   ];
 
-   const [activeTab, setActiveTab] = useState("Home"); // Default selected tab
+  const [activeTab, setActiveTab] = useState("Home"); // Default selected tab
   
-    const menuItems = [
-        { icon: require("../assets/icon/home.png"), label: "Home", screen: "Home" },
-        { icon: require("../assets/icon/orders.png"), label: "Delivery", screen: "Delivery" },
-        { icon: require("../assets/icon/chat.png"), label: "Notifications", screen: "Notifications" },
-        { icon: require("../assets/icon/profile.png"), label: "Account", screen: "Account" },
-    ];
+  const menuItems = [
+    { icon: require("../assets/icon/home.png"), label: "Home", screen: "Home" },
+    { icon: require("../assets/icon/orders.png"), label: "Delivery", screen: "MyOrder" },
+    { icon: require("../assets/icon/chat.png"), label: "Notifications", screen: "ChatList" },
+    { icon: require("../assets/icon/profile.png"), label: "Account", screen: "Profile" },
+  ];
+
+  // Navigation handler for bottom tabs
+  const handleTabPress = (screenName) => {
+    setActiveTab(screenName);
+    if (screenName !== "Home") {
+      navigation.navigate(screenName);
+    }
+  };
   
 
   return (
@@ -52,7 +60,7 @@ const HomePage = () => {
             marginTop: hp("5%"),
           }}
         >
-          Let’s track your package.
+          Let's track your package.
         </Text>
         <Text
           className="text-white"
@@ -89,8 +97,10 @@ const HomePage = () => {
       <ScrollView contentContainerStyle={{ paddingBottom: hp("10%") }}>
         {/* Action Buttons */}
         <View className="flex-row justify-around mt-6">
-          <TouchableOpacity className="items-center" >
-            {/* onPress={() => navigation.navigate("CreateDelivery")} */}
+          <TouchableOpacity 
+            className="items-center" 
+            onPress={() => navigation.navigate("CreateDelivery")}
+          >
             <View
               className="p-4"
               style={{
@@ -113,8 +123,10 @@ const HomePage = () => {
             </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity className="items-center" >
-            {/* onPress={() => navigation.navigate("History")} */}
+          <TouchableOpacity 
+            className="items-center" 
+            onPress={() => navigation.navigate("History")}
+          >
             <View
               className="p-4"
               style={{
@@ -197,39 +209,39 @@ const HomePage = () => {
 
       {/* Bottom Navigation */}
       <View
-                 className="flex-row justify-between bg-white px-8 py-4 border-t border-gray-200"
-                 style={{
-                     position: "absolute",
-                     bottom: 0,
-                     width: "100%",
-                     backgroundColor: "white",
-                 }}
-             >
-                 {menuItems.map((item, index) => (
-                     <TouchableOpacity
-                         key={index}
-                         className="items-center"
-                         onPress={() => setActiveTab(item.screen)}
-                     >
-                         <Image
-                             source={item.icon}
-                             style={{
-                                 width: 24,
-                                 height: 24,
-                                 tintColor: activeTab === item.screen ? "blue" : "gray",
-                             }}
-                             resizeMode="contain"
-                         />
-                         <Text
-                             className={`text-sm ${
-                                 activeTab === item.screen ? "text-blue-600" : "text-gray-500"
-                             }`}
-                         >
-                             {item.label}
-                         </Text>
-                     </TouchableOpacity>
-                 ))}
-             </View>
+        className="flex-row justify-between bg-white px-8 py-4 border-t border-gray-200"
+        style={{
+          position: "absolute",
+          bottom: 0,
+          width: "100%",
+          backgroundColor: "white",
+        }}
+      >
+        {menuItems.map((item, index) => (
+          <TouchableOpacity
+            key={index}
+            className="items-center"
+            onPress={() => handleTabPress(item.screen)}
+          >
+            <Image
+              source={item.icon}
+              style={{
+                width: 24,
+                height: 24,
+                tintColor: activeTab === item.screen ? "blue" : "gray",
+              }}
+              resizeMode="contain"
+            />
+            <Text
+              className={`text-sm ${
+                activeTab === item.screen ? "text-blue-600" : "text-gray-500"
+              }`}
+            >
+              {item.label}
+            </Text>
+          </TouchableOpacity>
+        ))}
+      </View>
     </View>
   );
 };
